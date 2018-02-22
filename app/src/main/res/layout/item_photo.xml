@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.demo.run.picseledemo.PhotoLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/itemphoto_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/itemphoto_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color5fBlack"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/itemphoto_check"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_picsele_check_false" />
+
+</com.demo.run.picseledemo.PhotoLayout>
