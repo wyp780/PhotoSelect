@@ -19,6 +19,6 @@
         </activity>
 
         <activity android:name=".PicseleActivity" />
-
+        <activity android:name=".PreViewActivity" />
     </application>
 </manifest>

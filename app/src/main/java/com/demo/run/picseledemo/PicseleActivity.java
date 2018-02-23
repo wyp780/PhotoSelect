@@ -1,8 +1,6 @@
 package com.demo.run.picseledemo;
 
 import android.Manifest;
-import android.animation.ValueAnimator;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -10,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,14 +18,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.demo.run.picseledemo.databinding.ActivityPicseleBinding;
@@ -90,6 +82,13 @@ public class PicseleActivity extends Activity {
             }
         });
 
+        binding.picselePreview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PreViewActivity.jumpPreViewActivity(context, resultList);
+            }
+        });
+
         binding.picseleDocumentationListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +97,7 @@ public class PicseleActivity extends Activity {
                 binding.picselePop.adapter.setmOnClick(new PopWindowAdapter.OnClick() {
                     @Override
                     public void itemOnClick(int position) {
-                        adapter.setList(photoAlbumBeans.get(position).getImageList());
-                        adapter.notifyDataSetChanged();
-                        binding.picselePop.showView();
+                        setData(photoAlbumBeans.get(position).getImageList());
                     }
                 });
             }
@@ -205,8 +202,6 @@ public class PicseleActivity extends Activity {
                         for (int i = 0; i < resultList.size(); i++) {
                             if (resultList.get(i).equals(photoBeanList.get(position).getPath())) {
                                 resultList.remove(i);
-                                Toast.makeText(context, "取消成功", Toast.LENGTH_LONG).show();
-                                return;
                             }
                         }
                     } else {
@@ -218,6 +213,13 @@ public class PicseleActivity extends Activity {
                         }
                     }
                     changeSendText(resultList.size(), MAX_NUM);
+                    if (resultList.size() > 0) {
+                        binding.picselePreview.setTextColor(getResources().getColor(R.color.colorWhite));
+                        binding.picselePreview.setEnabled(true);
+                    } else {
+                        binding.picselePreview.setTextColor(getResources().getColor(R.color.color5fWhite));
+                        binding.picselePreview.setEnabled(false);
+                    }
                 }
             });
         }
@@ -251,7 +253,21 @@ public class PicseleActivity extends Activity {
     }
 
     public void setData(List<PhotoBean> list) {
+        photoBeanList.clear();
+        photoBeanList.addAll(list);
         adapter.setList(list);
         adapter.notifyDataSetChanged();
+        binding.picselePop.showView();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101 && resultCode == RESULT_OK) {
+            Intent intent = new Intent();
+            intent.putStringArrayListExtra("imageList", resultList);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
     }
 }

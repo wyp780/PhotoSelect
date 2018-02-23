@@ -57,6 +57,10 @@ public class PicseleAdapter extends RecyclerView.Adapter<PicseleAdapter.ViewHold
                 .thumbnail(0.2f)
                 .centerCrop()
                 .into(holder.photo);
+        if(list.get(position).isCheck()){
+            holder.shadow.setVisibility(View.VISIBLE);
+            holder.check.setBackgroundResource(R.drawable.bg_picsele_check_ture);
+        }
         holder.photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
