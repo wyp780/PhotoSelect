@@ -57,7 +57,7 @@ public class PopWindowAdapter extends RecyclerView.Adapter<PopWindowAdapter.View
         Glide.with(context)
                 .load(list.get(position).getFirstImageUrl())
                 .into(holder.photo);
-        holder.name.setText(list.get(position).getName());
+        holder.name.setText(list.get(position).getParentPath());
         holder.num.setText(list.get(position).getNumber() + "张");
         if (list.get(position).isIscheck()) {
             holder.checkBox.setChecked(true);
